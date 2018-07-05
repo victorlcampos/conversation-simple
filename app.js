@@ -64,7 +64,7 @@ telegramBot.on('message', function (msg) {
 		else{
       context = response.context;
 
-      telegramBot.sendMessage(chatId, "Estamos executando sua solicitação, aguarde um momento");
+      telegramBot.sendMessage(chatId, response.output.text[0]);
 		}
 	});
 });
