@@ -434,3 +434,11 @@ html{
   font-weight: normal;
   font-style: normal;
 }
+
+div#view-change-button {
+    display: none;
+}
+
+div#payload-column {
+    display: none;
+}

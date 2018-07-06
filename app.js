@@ -19,6 +19,8 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
+var conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
+var tbot = require('node-telegram-bot-api');
 
 var app = express();
 
@@ -44,6 +46,36 @@ if (process.env.ASSISTANT_IAM_APIKEY !== undefined && process.env.ASSISTANT_IAM_
     'password': process.env.ASSISTANT_PASSWORD || '<password>'
   });
 }
+
+var context = {};
+var telegramBot = new tbot('369341448:AAHMw18i5G7CiVCNsvhxUorSWTyyrtMhqnI', { polling: true });
+
+telegramBot.on('message', function (msg) {
+	var chatId = msg.chat.id;
+  var text = msg.text.replace('/workshop_gptw_bot', '');
+
+  conversation.message({
+		workspace_id: process.env.WORKSPACE_ID,
+		input: {'text': text},
+		context: context
+	},  function(err, response) {
+		if (err)
+			console.log('error:', err);
+		else{
+      context = response.context;
+
+      telegramBot.sendMessage(chatId, "Estamos executando sua solicitação, aguarde um momento");
+		}
+	});
+});
+
+app.get('/robot', function(req, res) {
+  return res.json({
+    body: req.body,
+    params: req.params,
+    query: req.query
+  });
+});
 
 // Endpoint to be call from the client side
 app.post('/api/message', function (req, res) {

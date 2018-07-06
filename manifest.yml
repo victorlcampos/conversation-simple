@@ -1,15 +1,15 @@
 ---
 declared-services:
-  my-watson-assistant-service:
+  gptw-workshop:
     label: conversation
     plan: free
 applications:
-- name: watson-assistant-simple
+- name: Helpdesk Workshop GPTW
   command: npm start
   path: .
   memory: 256M
   instances: 1
   services:
-  - my-watson-assistant-service
+  - gptw-workshop
   env:
     NPM_CONFIG_PRODUCTION: false
