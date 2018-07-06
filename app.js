@@ -19,7 +19,6 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
-var conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
 var tbot = require('node-telegram-bot-api');
 
 var app = express();
@@ -54,7 +53,7 @@ telegramBot.on('message', function (msg) {
 	var chatId = msg.chat.id;
   var text = msg.text.replace('/workshop_gptw_bot', '');
 
-  conversation.message({
+  assistant.message({
 		workspace_id: process.env.WORKSPACE_ID,
 		input: {'text': text},
 		context: context
